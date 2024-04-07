@@ -1,4 +1,4 @@
-package com.auggie.student_server;
+package com.zhiend.student_server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

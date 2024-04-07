@@ -1,4 +1,4 @@
-package com.auggie.student_server;
+package com.zhiend.student_server;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

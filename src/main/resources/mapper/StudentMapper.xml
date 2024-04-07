@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.auggie.student_server.mapper.StudentMapper">
+<mapper namespace="com.zhiend.student_server.mapper.StudentMapper">
     <select id="findAll" resultType="Student">
         SELECT * FROM studentms.s;
     </select>
