@@ -28,11 +28,13 @@
 
     <update id="updateById">
         UPDATE studentms.c SET
-                               cname = #{course.cname},
-                               ccredit = #{course.ccredit}
-
+        cname = #{course.cname},
+        ccredit = #{course.ccredit},
+        location = #{course.location}, <!-- 更新地点 -->
+        schedule = #{course.schedule} <!-- 更新时间 -->
         WHERE cid = #{course.cid};
     </update>
+
 
     <insert id="insertCourse">
         INSERT INTO studentms.c (cname, ccredit, location, schedule)
