@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 /**
- * @Auther: auggie
- * @Date: 2022/2/8 16:11
- * @Description: Student
+ * @Auther: zhiend
+ * @Date: 2024/04/08
+ * @Description: 学生实体类
  * @Version 1.0.0
  */
 
@@ -17,7 +17,7 @@ import org.apache.ibatis.type.Alias;
 @AllArgsConstructor
 @Alias("Student")
 public class Student {
-    private Integer sid;
-    private String sname;
-    private String password;
+    private Integer sid;        // 学生编号
+    private String sname;       // 学生姓名
+    private String password;    // 密码
 }

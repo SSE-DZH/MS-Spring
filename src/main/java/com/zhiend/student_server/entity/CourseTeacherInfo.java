@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 /**
- * @Auther: auggie
- * @Date: 2022/2/10 18:45
- * @Description: CourseTeacherInfo
+ * @Auther: zhiend
+ * @Date: 2024/04/08
+ * @Description: 教师课程信息实体类
  * @Version 1.0.0
  */
 
@@ -17,12 +17,12 @@ import org.apache.ibatis.type.Alias;
 @AllArgsConstructor
 @Alias("CourseTeacherInfo")
 public class CourseTeacherInfo {
-    private Integer cid;
-    private Integer tid;
-    private String cname;
-    private String tname;
-    private Integer ccredit;
-    private Float grade;
-    private String location;
-    private String schedule;
+    private Integer cid;        // 课程编号
+    private Integer tid;        // 教师编号
+    private String cname;       // 课程名
+    private String tname;       // 教师名
+    private Integer ccredit;    // 学分
+    private Float grade;        // 成绩
+    private String location;    // 地点
+    private String schedule;    // 时间表
 }

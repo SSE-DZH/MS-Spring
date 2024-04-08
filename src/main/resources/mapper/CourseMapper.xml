@@ -30,6 +30,7 @@
         UPDATE studentms.c SET
                                cname = #{course.cname},
                                ccredit = #{course.ccredit}
+
         WHERE cid = #{course.cid};
     </update>
 

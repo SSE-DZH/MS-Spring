@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 import org.apache.ibatis.type.Alias;
 
 /**
- * @Auther: auggie
- * @Date: 2022/2/11 11:14
- * @Description: SCTInfo
+ * @Auther: zhiend
+ * @Date: 2024/04/08
+ * @Description: 选课信息实体类
  * @Version 1.0.0
  */
 
@@ -17,14 +17,14 @@ import org.apache.ibatis.type.Alias;
 @AllArgsConstructor
 @Alias("SCTInfo")
 public class SCTInfo {
-    private Integer sid;
-    private Integer tid;
-    private Integer cid;
-    private String sname;
-    private String tname;
-    private String cname;
-    private Float grade;
-    private String term;
-    private String location;
-    private String schedule;
+    private Integer sid;        // 学生编号
+    private Integer tid;        // 教师编号
+    private Integer cid;        // 课程编号
+    private String sname;       // 学生姓名
+    private String tname;       // 教师姓名
+    private String cname;       // 课程名
+    private Float grade;        // 成绩
+    private String term;        // 学期
+    private String location;    // 地点
+    private String schedule;    // 时间表
 }

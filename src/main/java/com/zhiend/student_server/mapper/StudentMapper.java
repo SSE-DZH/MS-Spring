@@ -8,9 +8,10 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 /**
- * @Auther: auggie
- * @Date: 2022/2/8 16:12
- * @Description: StudentMapper
+ * 学生数据访问接口
+ * @Auther: zhiend
+ * @Date: 2024/4/8
+ * @Description: 学生数据访问接口
  * @Version 1.0.0
  */
 
@@ -18,20 +19,45 @@ import java.util.List;
 @Repository
 public interface StudentMapper {
 
-//    select
+    /**
+     * 查询所有学生信息
+     * @return 学生信息列表
+     */
     public List<Student> findAll();
 
+    /**
+     * 根据学生ID查询学生信息
+     * @param sid 学生ID
+     * @return 学生对象
+     */
     public Student findById(@Param("sid") Integer sid);
 
+    /**
+     * 根据条件查询学生信息
+     * @param student 学生对象，包含查询条件
+     * @param fuzzy 是否模糊查询，1表示模糊查询，0表示精确查询
+     * @return 符合条件的学生列表
+     */
     public List<Student> findBySearch(@Param("student") Student student, @Param("fuzzy") Integer fuzzy);
 
-//    update
+    /**
+     * 更新学生信息
+     * @param student 待更新的学生对象
+     * @return 更新成功与否
+     */
     public boolean updateById(@Param("student") Student student);
 
-//    insert
+    /**
+     * 添加学生信息
+     * @param student 待添加的学生对象
+     * @return 添加成功与否
+     */
     public boolean save(@Param("student") Student student);
 
-//    delete
+    /**
+     * 根据学生ID删除学生信息
+     * @param sid 学生ID
+     * @return 删除成功与否
+     */
     public boolean deleteById(@Param("sid") Integer sid);
-
 }

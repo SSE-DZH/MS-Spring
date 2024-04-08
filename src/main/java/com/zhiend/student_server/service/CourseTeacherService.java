@@ -11,9 +11,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Auther: auggie
- * @Date: 2022/2/10 16:50
- * @Description: CourseTeacherService
+ * @Auther: zhiend
+ * @Date: 2024/04/08
+ * @Description: 课程教师服务类
  * @Version 1.0.0
  */
 
@@ -22,14 +22,32 @@ public class CourseTeacherService {
     @Autowired
     private CourseTeacherMapper courseTeacherMapper;
 
+    /**
+     * 插入课程教师信息
+     * @param cid 课程ID
+     * @param tid 教师ID
+     * @param term 学期
+     * @return 是否成功插入
+     */
     public boolean insertCourseTeacher(Integer cid, Integer tid, String term) {
         return courseTeacherMapper.insertCourseTeacher(cid, tid, term);
     }
 
+    /**
+     * 查询教师开设的课程
+     * @param tid 教师ID
+     * @param term 学期
+     * @return 教师开设的课程列表
+     */
     public List<Course> findMyCourse(Integer tid, String term) {
         return courseTeacherMapper.findMyCourse(tid, term);
     }
 
+    /**
+     * 根据条件查询课程教师信息
+     * @param map 查询条件
+     * @return 符合条件的课程教师信息列表
+     */
     public List<CourseTeacherInfo> findCourseTeacherInfo(Map<String, String> map) {
         Integer tid = null, cid = null;
         Integer tFuzzy = null, cFuzzy = null;
@@ -60,15 +78,27 @@ public class CourseTeacherService {
         if (map.containsKey("cFuzzy")) {
             cFuzzy = (map.get("cFuzzy").equals("true")) ? 1 : 0;
         }
-        System.out.println("ct 模糊查询" + map);
+        System.out.println("课程教师模糊查询：" + map);
         System.out.println(courseTeacherMapper.findCourseTeacherInfo(tid, tname, tFuzzy, cid, cname, cFuzzy));
         return courseTeacherMapper.findCourseTeacherInfo(tid, tname, tFuzzy, cid, cname, cFuzzy);
     }
 
+    /**
+     * 根据条件查询课程教师信息
+     * @param cid 课程ID
+     * @param tid 教师ID
+     * @param term 学期
+     * @return 符合条件的课程教师信息列表
+     */
     public List<CourseTeacher> findBySearch(Integer cid, Integer tid, String term) {
         return courseTeacherMapper.findBySearch(cid, tid, term);
     }
 
+    /**
+     * 根据条件查询课程教师信息
+     * @param map 查询条件
+     * @return 符合条件的课程教师信息列表
+     */
     public List<CourseTeacher> findBySearch(Map<String, String> map) {
         Integer cid = null;
         Integer tid = null;
@@ -97,6 +127,11 @@ public class CourseTeacherService {
         return courseTeacherMapper.findBySearch(cid, tid, term);
     }
 
+    /**
+     * 删除课程教师信息
+     * @param courseTeacher 课程教师信息
+     * @return 是否成功删除
+     */
     public boolean deleteById(CourseTeacher courseTeacher) {
         return courseTeacherMapper.deleteById(courseTeacher);
     }
