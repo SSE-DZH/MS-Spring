@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/info")
 @CrossOrigin("*")
 public class InfoController {
-    private final String CURRENT_TERM = "22-春季学期";
+    private final String CURRENT_TERM = "24-春季学期";
     private final boolean FORBID_COURSE_SELECTION = false;
 
     @RequestMapping("/getCurrentTerm")

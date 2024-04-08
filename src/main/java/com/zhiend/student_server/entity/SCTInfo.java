@@ -25,4 +25,6 @@ public class SCTInfo {
     private String cname;
     private Float grade;
     private String term;
+    private String location;
+    private String schedule;
 }

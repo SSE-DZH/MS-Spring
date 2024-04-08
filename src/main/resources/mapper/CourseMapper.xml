@@ -34,8 +34,10 @@
     </update>
 
     <insert id="insertCourse">
-        INSERT INTO studentms.c (cname, ccredit) VALUES (#{course.cname}, #{course.ccredit})
+        INSERT INTO studentms.c (cname, ccredit, location, schedule)
+        VALUES (#{cname}, #{ccredit}, #{location}, #{schedule})
     </insert>
+
 
     <delete id="deleteById">
         DELETE FROM studentms.c WHERE cid = #{cid}

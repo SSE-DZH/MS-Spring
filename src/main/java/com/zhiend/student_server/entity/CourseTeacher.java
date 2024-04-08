@@ -21,4 +21,6 @@ public class CourseTeacher {
     private Integer cid;
     private Integer tid;
     private String term;
+    private String location;
+    private String schedule;
 }

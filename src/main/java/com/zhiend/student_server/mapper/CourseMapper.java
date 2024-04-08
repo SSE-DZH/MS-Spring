@@ -23,7 +23,7 @@ public interface CourseMapper {
                                      @Param("lowBound") Integer lowBound, @Param("highBound") Integer highBound);
 
 //    insert
-    public boolean insertCourse(@Param("course") Course course);
+    public boolean insertCourse(Course course);
 
 //    update
     public boolean updateById(@Param("course") Course course);

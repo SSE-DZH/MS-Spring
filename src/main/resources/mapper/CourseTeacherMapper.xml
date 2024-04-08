@@ -19,13 +19,13 @@
     </select>
 
     <select id="findMyCourse" resultType="Course">
-        SELECT c.cid, c.cname, c.ccredit
+        SELECT c.cid, c.cname, c.ccredit, c.location, c.schedule
         FROM studentms.c c INNER JOIN studentms.ct ct ON c.cid = ct.cid
         WHERE ct.tid = #{tid} AND ct.term = #{term}
     </select>
 
     <select id="findCourseTeacherInfo" resultType="CourseTeacherInfo">
-        SELECT c.cid, c.cname, t.tid, t.tname, c.ccredit
+        SELECT c.cid, c.cname, t.tid, t.tname, c.ccredit, c.location, c.schedule
         FROM studentms.c c INNER JOIN studentms.ct ct ON c.cid = ct.cid
                 INNER JOIN studentms.t ON ct.tid = t.tid
         <where>

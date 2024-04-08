@@ -23,4 +23,6 @@ public class CourseTeacherInfo {
     private String tname;
     private Integer ccredit;
     private Float grade;
+    private String location;
+    private String schedule;
 }
