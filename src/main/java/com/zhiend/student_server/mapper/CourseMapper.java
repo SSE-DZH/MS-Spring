@@ -1,5 +1,6 @@
 package com.zhiend.student_server.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zhiend.student_server.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -15,7 +16,7 @@ import java.util.List;
  */
 @Repository
 @Mapper
-public interface CourseMapper {
+public interface CourseMapper extends BaseMapper {
     /**
      * 根据条件查询课程
      *

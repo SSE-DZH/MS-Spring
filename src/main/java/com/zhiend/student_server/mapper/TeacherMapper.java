@@ -24,6 +24,7 @@ public interface TeacherMapper {
      */
     public List<Teacher> findAll();
 
+
     /**
      * 根据教师ID查询教师信息
      * @param tid 教师ID

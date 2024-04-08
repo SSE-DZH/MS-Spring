@@ -1,15 +1,17 @@
 package com.zhiend.student_server.controller;
 
+import com.zhiend.student_server.dto.PageDTO;
 import com.zhiend.student_server.entity.Teacher;
+import com.zhiend.student_server.query.PageQuery;
 import com.zhiend.student_server.service.TeacherService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-import java.util.Map;
-
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+
+import java.util.List;
+import java.util.Map;
 
 /**
  * 教师控制器
@@ -65,6 +67,7 @@ public class TeacherController {
         return teacherService.findById(tid);
     }
 
+
     /**
      * 根据条件查询教师信息
      * @param map 查询条件，包含教师姓名和模糊查询标志
@@ -75,6 +78,7 @@ public class TeacherController {
     public List<Teacher> findBySearch(@RequestBody Map<String, String> map) {
         return teacherService.findBySearch(map);
     }
+
 
     /**
      * 根据教师ID删除教师信息

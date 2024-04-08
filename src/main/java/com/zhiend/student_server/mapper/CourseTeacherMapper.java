@@ -28,7 +28,7 @@ public interface CourseTeacherMapper {
      * @param term 学期
      * @return 是否成功插入
      */
-    @Insert("INSERT INTO studentms.ct (cid, tid, term) VALUES (#{cid}, #{tid}, #{term})")
+    @Insert("INSERT INTO studentms.courseteacher (cid, tid, term) VALUES (#{cid}, #{tid}, #{term})")
     public boolean insertCourseTeacher(@Param("cid") Integer cid,
                                        @Param("tid") Integer tid,
                                        @Param("term") String term);
@@ -75,6 +75,6 @@ public interface CourseTeacherMapper {
      * @param courseTeacher 课程教师信息
      * @return 是否成功删除
      */
-    @Delete("DELETE FROM studentms.ct WHERE cid = #{c.cid} AND tid = #{c.tid}")
+    @Delete("DELETE FROM studentms.courseteacher WHERE cid = #{c.cid} AND tid = #{c.tid}")
     public boolean deleteById(@Param("c") CourseTeacher courseTeacher);
 }

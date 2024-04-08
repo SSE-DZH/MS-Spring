@@ -4,11 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhiend.student_server.mapper.TeacherMapper">
     <select id="findAll" resultType="Teacher">
-        SELECT * FROM studentms.t;
+        SELECT * FROM studentms.Teacher;
     </select>
 
     <select id="findBySearch" resultType="Teacher">
-        SELECT * FROM studentms.t
+        SELECT * FROM studentms.Teacher
         <where>
             <if test="tid != null">
                 tid = #{tid}
@@ -25,21 +25,21 @@
     </select>
 
     <select id="findById" resultType="Teacher">
-        SELECT * FROM studentms.t WHERE tid = #{tid};
+        SELECT * FROM studentms.Teacher WHERE tid = #{tid};
     </select>
 
     <update id="updateById">
-        UPDATE studentms.t SET
-                               tname = #{teacher.tname},
-                               password = #{teacher.password}
+        UPDATE studentms.Teacher SET
+                                     tname = #{teacher.tname},
+                                     password = #{teacher.password}
         WHERE tid = #{teacher.tid};
     </update>
 
     <insert id="save">
-        INSERT INTO studentms.t (tname, password) VALUES (#{teacher.tname}, #{teacher.password})
+        INSERT INTO studentms.Teacher (tname, password) VALUES (#{teacher.tname}, #{teacher.password})
     </insert>
 
     <delete id="deleteById">
-        DELETE FROM studentms.t WHERE tid = #{tid}
+        DELETE FROM studentms.Teacher WHERE tid = #{tid}
     </delete>
 </mapper>

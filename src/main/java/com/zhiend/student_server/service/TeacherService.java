@@ -1,7 +1,10 @@
 package com.zhiend.student_server.service;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.zhiend.student_server.dto.PageDTO;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.mapper.TeacherMapper;
+import com.zhiend.student_server.query.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +55,8 @@ public class TeacherService {
         System.out.println("查询类型：" + tid + ", " + tname + ", " + fuzzy);
         return teacherMapper.findBySearch(tid, tname, fuzzy);
     }
+
+
 
     /**
      * 分页查询教师信息

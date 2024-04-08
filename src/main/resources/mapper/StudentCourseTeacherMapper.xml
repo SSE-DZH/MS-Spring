@@ -5,16 +5,16 @@
 <mapper namespace="com.zhiend.student_server.mapper.StudentCourseTeacherMapper">
     <select id="findByStudentId" resultType="CourseTeacherInfo">
         SELECT c.cid, c.cname, t.tid, t.tname, sct.grade, c.ccredit
-        FROM studentms.sct sct INNER JOIN studentms.t t ON sct.tid = t.tid
-                INNER JOIN studentms.c c ON sct.cid = c.cid
+        FROM studentms.StudentCourseTeacher sct INNER JOIN studentms.Teacher t ON sct.tid = t.tid
+                                                INNER JOIN studentms.Course c ON sct.cid = c.cid
         WHERE sct.sid = #{sid} AND sct.term = #{term}
     </select>
 
     <select id="findBySearch" resultType="SCTInfo">
         SELECT c.cid, c.cname, t.tid, t.tname, s.sid, s.sname, sct.grade, sct.term
-        FROM studentms.sct sct INNER JOIN studentms.s s ON sct.sid = s.sid
-                INNER JOIN studentms.t t ON sct.tid = t.tid
-                INNER JOIN studentms.c c ON sct.cid = c.cid
+        FROM studentms.StudentCourseTeacher sct INNER JOIN studentms.Student s ON sct.sid = s.sid
+        INNER JOIN studentms.Teacher t ON sct.tid = t.tid
+        INNER JOIN studentms.Course c ON sct.cid = c.cid
         <where>
             <if test="sid != null">
                 s.sid = #{sid}
