@@ -8,10 +8,10 @@
         <version>2.7.12</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.itheima.mp</groupId>
-    <artifactId>mp-demo</artifactId>
+    <groupId>com.zhiend.student_server</groupId>
+    <artifactId>student_server</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>mp-demo</name>
+    <name>student_server</name>
     <description>Demo project for Spring Boot</description>
     <properties>
         <java.version>17</java.version>
