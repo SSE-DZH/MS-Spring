@@ -31,9 +31,12 @@
     <update id="updateById">
         UPDATE studentms.Student SET
                                      sname = #{student.sname},
-                                     password = #{student.password}
+                                     password = #{student.password},
+                                     email = #{student.email},  -- 添加邮箱字段
+                                     phone = #{student.phone}   -- 添加手机号字段
         WHERE sid = #{student.sid};
     </update>
+
 
     <insert id="save">
         INSERT INTO studentms.Student (sname, password, email, phone) VALUES (#{student.sname}, #{student.password}, #{student.email}, #{student.phone})

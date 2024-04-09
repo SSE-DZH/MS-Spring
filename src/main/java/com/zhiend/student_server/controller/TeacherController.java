@@ -3,7 +3,9 @@ package com.zhiend.student_server.controller;
 import com.zhiend.student_server.dto.PageDTO;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.query.PageQuery;
+import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.TeacherService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,6 +27,7 @@ import java.util.Map;
 @CrossOrigin("*")
 @RequestMapping("/teacher")
 @Api(tags = "教师管理")
+@Slf4j
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
@@ -37,7 +40,9 @@ public class TeacherController {
     @PostMapping("/addTeacher")
     @ApiOperation("添加教师")
     public boolean addTeacher(@RequestBody Teacher teacher) {
-        return teacherService.save(teacher);
+        log.info("添加教师：{}", teacher);
+        teacherService.save(teacher);
+        return true;
     }
 
     /**
@@ -99,6 +104,8 @@ public class TeacherController {
     @PostMapping("/updateTeacher")
     @ApiOperation("更新教师信息")
     public boolean updateTeacher(@RequestBody Teacher teacher) {
-        return teacherService.updateById(teacher);
+        log.info("更新教师信息：{}", teacher);
+        teacherService.updateById(teacher);
+        return true;
     }
 }

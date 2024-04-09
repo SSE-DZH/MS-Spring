@@ -61,7 +61,7 @@ public interface StudentCourseTeacherMapper {
      * 查询所有学期
      * @return 所有学期列表
      */
-    @Select("SELECT DISTINCT sct.term FROM studentms.sct sct")
+    @Select("SELECT DISTINCT sct.term FROM studentms.studentcourseteacher sct")
     public List<String> findAllTerm();
 
     /**
@@ -69,7 +69,7 @@ public interface StudentCourseTeacherMapper {
      * @param studentCourseTeacher 选课信息对象
      * @return 选课记录列表
      */
-    @Select("SELECT * FROM studentms.sct WHERE sid = #{sct.sid} AND cid = #{sct.cid} AND tid = #{sct.tid} AND term = #{sct.term}")
+    @Select("SELECT * FROM studentms.studentcourseteacher WHERE sid = #{sct.sid} AND cid = #{sct.cid} AND tid = #{sct.tid} AND term = #{sct.term}")
     public List<StudentCourseTeacher> findBySCT(@Param("sct") StudentCourseTeacher studentCourseTeacher);
 
     /**
@@ -77,7 +77,7 @@ public interface StudentCourseTeacherMapper {
      * @param studentCourseTeacher 选课信息对象
      * @return 是否插入成功
      */
-    @Insert("INSERT INTO studentms.sct (sid, cid, tid, term) VALUES (#{s.sid}, #{s.cid}, #{s.tid}, #{s.term})")
+    @Insert("INSERT INTO studentms.studentcourseteacher (sid, cid, tid, term) VALUES (#{s.sid}, #{s.cid}, #{s.tid}, #{s.term})")
     public boolean insert(@Param("s")StudentCourseTeacher studentCourseTeacher);
 
     /**
@@ -89,7 +89,7 @@ public interface StudentCourseTeacherMapper {
      * @param grade 成绩
      * @return 是否更新成功
      */
-    @Update("UPDATE studentms.sct SET sct.grade = #{grade} WHERE sct.sid = #{sid} AND sct.tid = #{tid} AND sct.cid = #{cid} AND sct.term = #{term}")
+    @Update("UPDATE studentms.studentcourseteacher SET grade = #{grade} WHERE sid = #{sid} AND tid = #{tid} AND cid = #{cid} AND term = #{term}")
     public boolean updateById(@Param("sid") Integer sid,
                               @Param("cid") Integer cid,
                               @Param("tid") Integer tid,
@@ -101,6 +101,7 @@ public interface StudentCourseTeacherMapper {
      * @param sct 选课信息对象
      * @return 是否删除成功
      */
-    @Delete("DELETE FROM studentms.sct WHERE sid = #{sct.sid} AND tid = #{sct.tid} AND cid = #{sct.cid}")
+    @Delete("DELETE FROM studentms.studentcourseteacher WHERE sid = #{sct.sid} AND tid = #{sct.tid} AND cid = #{sct.cid}")
     public boolean deleteBySCT(@Param("sct") StudentCourseTeacher sct);
+
 }

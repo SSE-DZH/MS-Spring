@@ -6,7 +6,7 @@ spring:
     password: root
 logging:
   level:
-    com.zhiend.student_server: debug
+    com.zhiend.student_server: info
   pattern:
     dateformat: HH:mm:ss
 mybatis-plus:

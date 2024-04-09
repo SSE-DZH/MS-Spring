@@ -1,10 +1,7 @@
 package com.zhiend.student_server.service;
 
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.zhiend.student_server.dto.PageDTO;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.mapper.TeacherMapper;
-import com.zhiend.student_server.query.PageQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -105,8 +102,8 @@ public class TeacherService {
      * @return 更新结果，成功为true，失败为false
      */
     @ApiOperation("更新教师信息")
-    public boolean updateById(Teacher teacher) {
-        return teacherMapper.updateById(teacher);
+    public void updateById(Teacher teacher) {
+        teacherMapper.updateById(teacher);
     }
 
     /**
@@ -115,8 +112,8 @@ public class TeacherService {
      * @return 添加结果，成功为true，失败为false
      */
     @ApiOperation("添加教师信息")
-    public boolean save(Teacher teacher) {
-        return teacherMapper.save(teacher);
+    public void save(Teacher teacher) {
+        teacherMapper.save(teacher);
     }
 
     /**

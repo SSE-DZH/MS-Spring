@@ -1,5 +1,6 @@
 package com.zhiend.student_server.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zhiend.student_server.entity.Teacher;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -17,7 +18,7 @@ import java.util.List;
 
 @Repository
 @Mapper
-public interface TeacherMapper {
+public interface TeacherMapper{
     /**
      * 查询所有教师信息
      * @return 教师信息列表

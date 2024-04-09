@@ -31,13 +31,16 @@
     <update id="updateById">
         UPDATE studentms.Teacher SET
                                      tname = #{teacher.tname},
-                                     password = #{teacher.password}
+                                     password = #{teacher.password},
+                                     email = #{teacher.email}, -- 新增邮箱字段
+                                     phone = #{teacher.phone}  -- 新增手机字段
         WHERE tid = #{teacher.tid};
     </update>
 
     <insert id="save">
-        INSERT INTO studentms.Teacher (tname, password) VALUES (#{teacher.tname}, #{teacher.password})
+        INSERT INTO studentms.Teacher (tname, password, email, phone) VALUES (#{teacher.tname}, #{teacher.password}, #{teacher.email}, #{teacher.phone});
     </insert>
+
 
     <delete id="deleteById">
         DELETE FROM studentms.Teacher WHERE tid = #{tid}
