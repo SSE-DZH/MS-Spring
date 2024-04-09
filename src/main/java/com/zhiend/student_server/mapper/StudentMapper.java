@@ -3,6 +3,7 @@ package com.zhiend.student_server.mapper;
 import com.zhiend.student_server.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -24,6 +25,9 @@ public interface StudentMapper {
      * @return 学生信息列表
      */
     public List<Student> findAll();
+
+    @Select("SELECT sid FROM studentms.Student WHERE student.sname = #{username}")
+    Integer findIdByUsername(String username);
 
     /**
      * 根据学生ID查询学生信息
@@ -60,4 +64,7 @@ public interface StudentMapper {
      * @return 删除成功与否
      */
     public boolean deleteById(@Param("sid") Integer sid);
+
+    @Select("SELECT * FROM studentms.Student WHERE sname = #{username}")
+    Student findByUsername(String username);
 }

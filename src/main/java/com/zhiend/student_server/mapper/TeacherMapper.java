@@ -1,9 +1,11 @@
 package com.zhiend.student_server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -62,4 +64,7 @@ public interface TeacherMapper{
      * @return 删除结果，成功为true，失败为false
      */
     public boolean deleteById(@Param("tid") Integer tid);
+
+    @Select("SELECT * FROM studentms.teacher WHERE tname = #{username}")
+    Teacher findByUsername(String username);
 }

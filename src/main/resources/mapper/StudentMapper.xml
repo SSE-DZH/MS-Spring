@@ -7,6 +7,7 @@
         SELECT * FROM studentms.Student;
     </select>
 
+
     <select id="findById" resultType="Student">
         SELECT * FROM studentms.Student WHERE sid = #{sid};
     </select>

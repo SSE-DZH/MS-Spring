@@ -1,5 +1,6 @@
 package com.zhiend.student_server.service;
 
+import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.mapper.TeacherMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,14 @@ public class TeacherService {
         return teacherMapper.findBySearch(tid, tname, fuzzy);
     }
 
+    /**
+     * 根据用户名查询教师信息
+     * @param username 用户名
+     * @return 教师对象
+     */
+    public Teacher findByUsername(String username) {
+        return teacherMapper.findByUsername(username);
+    }
 
 
     /**

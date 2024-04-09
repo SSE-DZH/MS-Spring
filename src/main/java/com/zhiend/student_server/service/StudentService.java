@@ -2,6 +2,7 @@ package com.zhiend.student_server.service;
 
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.mapper.StudentMapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -66,6 +67,15 @@ public class StudentService {
     }
 
     /**
+     * 根据用户名查询学生ID
+     * @param username 用户名
+     * @return 学生ID
+     */
+    public Integer findIdByUsername(@Param("username") String username) {
+        return studentMapper.findIdByUsername(username);
+    }
+
+    /**
      * 根据学生ID查询学生信息
      * @param sid 学生ID
      * @return 学生对象
@@ -73,6 +83,16 @@ public class StudentService {
     public Student findById(Integer sid) {
         return studentMapper.findById(sid);
     }
+
+    /**
+     * 根据用户名查询学生信息
+     * @param username 用户名
+     * @return 学生对象
+     */
+    public Student findByUsername(String username) {
+        return studentMapper.findByUsername(username);
+    }
+
 
     /**
      * 更新学生信息

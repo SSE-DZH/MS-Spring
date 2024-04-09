@@ -1,6 +1,8 @@
 package com.zhiend.student_server.controller;
 
+import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.dto.PageDTO;
+import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.query.PageQuery;
 import com.zhiend.student_server.result.Result;
@@ -47,17 +49,21 @@ public class TeacherController {
 
     /**
      * 教师登录验证
-     * @param teacher 教师对象
+     * @param loginDTO 登录对象
      * @return 登录结果，成功为true，失败为false
      */
     @PostMapping("/login")
     @ApiOperation("教师登录")
-    public boolean login(@RequestBody Teacher teacher) {
-        Teacher t = teacherService.findById(teacher.getTid());
-        if (t == null || !t.getPassword().equals(teacher.getPassword())) {
-            return false;
+    public boolean login(@RequestBody LoginDTO loginDTO) {
+        System.out.println("正在验证教师登录 " + loginDTO);
+        // 通过用户名查询教师信息
+        Teacher teacher = teacherService.findByUsername(loginDTO.getUsername());
+        if (teacher != null) {
+            // 判断密码是否匹配
+            return teacher.getPassword().equals(loginDTO.getPassword());
         } else {
-            return true;
+            // 如果教师信息为null，说明用户名不存在，直接返回false
+            return false;
         }
     }
 
@@ -70,6 +76,12 @@ public class TeacherController {
     @ApiOperation("根据ID查询教师信息")
     public Teacher findById(@PathVariable("tid") Integer tid) {
         return teacherService.findById(tid);
+    }
+
+    @ApiOperation("根据用户名查询教师信息")
+    @GetMapping("/findByUsername/{username}")
+    public Teacher findByUsername(@PathVariable String username) {
+        return teacherService.findByUsername(username);
     }
 
 

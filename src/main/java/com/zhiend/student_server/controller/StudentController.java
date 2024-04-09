@@ -1,6 +1,7 @@
 package com.zhiend.student_server.controller;
 
 import com.zhiend.student_server.dto.StudentDTO;
+import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.StudentService;
@@ -53,11 +54,19 @@ public class StudentController {
 
     @ApiOperation("学生登录")
     @PostMapping("/login")
-    public boolean login(@RequestBody Student student) {
-        System.out.println("正在验证学生登录 " + student);
-        Student s = studentService.findById(student.getSid());
-        return s != null && s.getPassword().equals(student.getPassword());
+    public boolean login(@RequestBody LoginDTO loginDTO) {
+        System.out.println("正在验证学生登录 " + loginDTO);
+        // 通过用户名查询学生信息
+        Student student = studentService.findByUsername(loginDTO.getUsername());
+        if (student != null) {
+            // 判断密码是否匹配
+            return student.getPassword().equals(loginDTO.getPassword());
+        } else {
+            // 如果学生信息为null，说明用户名不存在，直接返回false
+            return false;
+        }
     }
+
 
     @ApiOperation("根据条件查询学生信息")
     @PostMapping("/findBySearch")
@@ -72,6 +81,13 @@ public class StudentController {
         System.out.println("正在查询学生信息 By id " + sid);
         return studentService.findById(sid);
     }
+
+    @ApiOperation("根据用户名查询学生信息")
+    @GetMapping("/findByUsername/{username}")
+    public Student findByUsername(@PathVariable String username) {
+        return studentService.findByUsername(username);
+    }
+
 
     @ApiOperation("分页查询学生信息")
     @GetMapping("/findByPage/{page}/{size}")
