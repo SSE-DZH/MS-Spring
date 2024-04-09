@@ -36,7 +36,7 @@
     </update>
 
     <insert id="save">
-        INSERT INTO studentms.Student (sname, password) VALUES (#{student.sname}, #{student.password})
+        INSERT INTO studentms.Student (sname, password, email, phone) VALUES (#{student.sname}, #{student.password}, #{student.email}, #{student.phone})
     </insert>
 
     <delete id="deleteById">

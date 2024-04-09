@@ -1,8 +1,11 @@
 package com.zhiend.student_server.controller;
 
+import com.zhiend.student_server.dto.StudentDTO;
 import com.zhiend.student_server.entity.Student;
+import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -30,6 +33,22 @@ public class StudentController {
     public boolean addStudent(@RequestBody Student student) {
         System.out.println("正在保存学生对象" + student);
         return studentService.save(student);
+    }
+
+    //TODO 需要加入验证码逻辑
+    @PostMapping("/register")
+    public Result<Object> register(@Validated @RequestBody StudentDTO studentDTO) {
+        Student student = new Student();
+        student.setSname(studentDTO.getSname());
+        student.setPassword(studentDTO.getPassword());
+        student.setEmail(studentDTO.getEmail());
+        student.setPhone(studentDTO.getPhone());
+
+        if (studentService.save(student)) {
+            return Result.success();
+        } else {
+            return Result.error("注册失败");
+        }
     }
 
     @ApiOperation("学生登录")
