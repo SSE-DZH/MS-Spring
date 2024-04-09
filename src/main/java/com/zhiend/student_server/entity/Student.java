@@ -20,4 +20,7 @@ public class Student {
     private Integer sid;        // 学生编号
     private String sname;       // 学生姓名
     private String password;    // 密码
+    private String avatar;      // 头像
+    private String email;       // 邮箱
+    private String phone;       // 手机号
 }
