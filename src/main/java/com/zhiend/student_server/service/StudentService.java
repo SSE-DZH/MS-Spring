@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 /**
  * 学生业务逻辑处理类
@@ -93,12 +92,12 @@ public class StudentService {
             cleanCache(registerDTO.getEmail());
         }
 
-        if (this.findByUsername(registerDTO.getSname()) != null) {
+        if (this.findByUsername(registerDTO.getUsername()) != null) {
             throw new RuntimeException("用户名已存在");
         }
         // 创建用户
         Student student = new Student();
-        student.setSname(registerDTO.getSname());
+        student.setSname(registerDTO.getUsername());
         student.setPhone(registerDTO.getPhone());
         try {
             student.setPassword(registerDTO.getPassword());

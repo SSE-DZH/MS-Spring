@@ -28,7 +28,7 @@
         SELECT * FROM studentms.Teacher WHERE tid = #{tid};
     </select>
 
-    <update id="updateById">
+    <update id="updateById1">
         UPDATE studentms.Teacher SET
                                      tname = #{teacher.tname},
                                      password = #{teacher.password},

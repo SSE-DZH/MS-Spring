@@ -1,7 +1,6 @@
 package com.zhiend.student_server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -20,7 +19,7 @@ import java.util.List;
 
 @Repository
 @Mapper
-public interface TeacherMapper{
+public interface TeacherMapper extends BaseMapper<Teacher> {
     /**
      * 查询所有教师信息
      * @return 教师信息列表
@@ -49,7 +48,7 @@ public interface TeacherMapper{
      * @param teacher 教师对象
      * @return 更新结果，成功为true，失败为false
      */
-    public boolean updateById(@Param("teacher") Teacher teacher);
+    public boolean updateById1(@Param("teacher") Teacher teacher);
 
     /**
      * 添加教师信息

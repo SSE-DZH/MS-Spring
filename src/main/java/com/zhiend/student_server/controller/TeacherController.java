@@ -2,6 +2,7 @@ package com.zhiend.student_server.controller;
 
 import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.dto.PageDTO;
+import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.query.PageQuery;
@@ -9,6 +10,8 @@ import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.annotations.Api;
@@ -45,6 +48,34 @@ public class TeacherController {
         log.info("添加教师：{}", teacher);
         teacherService.save(teacher);
         return true;
+    }
+
+    @ApiOperation("发送邮箱验证码")
+    @PostMapping("/sendEailCode")
+    public ResponseEntity<Result<String>> sendMailCode(@RequestParam("email") String email) {
+        try {
+            teacherService.sendMailCode(email);
+            return ResponseEntity.ok(Result.success("验证码已发送至邮箱：" + email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Result.error("发送验证码失败：" + e.getMessage()));
+        }
+    }
+
+    @ApiOperation("注册")
+    @PostMapping(value = "/register")
+    public ResponseEntity<Result<String>> register(@RequestBody RegisterDTO registerDTO) {
+        try {
+            boolean success = teacherService.register(registerDTO);
+            if (success) {
+                return ResponseEntity.ok(Result.success("注册成功！"));
+            } else {
+                return ResponseEntity.ok(Result.error("注册失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Result.error("注册失败：" + e.getMessage()));
+        }
     }
 
     /**

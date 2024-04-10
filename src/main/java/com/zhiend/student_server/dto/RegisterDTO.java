@@ -10,7 +10,7 @@ import java.io.Serializable;
 @Data
 public class RegisterDTO implements Serializable {
     @NotBlank(message = "姓名不能为空")
-    private String sname;
+    private String username;
 
     @NotBlank(message = "密码不能为空")
     private String password;

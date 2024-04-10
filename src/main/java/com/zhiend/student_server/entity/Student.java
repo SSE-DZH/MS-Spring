@@ -1,5 +1,6 @@
 package com.zhiend.student_server.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import org.apache.ibatis.type.Alias;
 @AllArgsConstructor
 @Alias("Student")
 public class Student {
+    @TableId
     private Integer sid;        // 学生编号
     private String sname;       // 学生姓名
     private String password;    // 密码

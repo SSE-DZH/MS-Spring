@@ -1,5 +1,6 @@
 package com.zhiend.student_server.entity;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,6 +18,7 @@ import org.apache.ibatis.type.Alias;
 @NoArgsConstructor
 @Alias("Course")
 public class Course {
+    @TableId
     private Integer cid;       // 课程编号
     private String cname;      // 课程名称
     private Integer ccredit;   // 学分
