@@ -1,11 +1,13 @@
 package com.zhiend.student_server.controller;
 
-import com.zhiend.student_server.dto.StudentDTO;
+import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,19 +38,31 @@ public class StudentController {
         return studentService.save(student);
     }
 
-    //TODO 需要加入验证码逻辑
-    @PostMapping("/register")
-    public Result<Object> register(@Validated @RequestBody StudentDTO studentDTO) {
-        Student student = new Student();
-        student.setSname(studentDTO.getSname());
-        student.setPassword(studentDTO.getPassword());
-        student.setEmail(studentDTO.getEmail());
-        student.setPhone(studentDTO.getPhone());
+    @ApiOperation("发送邮箱验证码")
+    @PostMapping("/sendEailCode")
+    public ResponseEntity<Result<String>> sendMailCode(@RequestParam("email") String email) {
+        try {
+            studentService.sendMailCode(email);
+            return ResponseEntity.ok(Result.success("验证码已发送至邮箱：" + email));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Result.error("发送验证码失败：" + e.getMessage()));
+        }
+    }
 
-        if (studentService.save(student)) {
-            return Result.success();
-        } else {
-            return Result.error("注册失败");
+    @ApiOperation("注册")
+    @PostMapping(value = "/register")
+    public ResponseEntity<Result<String>> register(@RequestBody RegisterDTO registerDTO) {
+        try {
+            boolean success = studentService.register(registerDTO);
+            if (success) {
+                return ResponseEntity.ok(Result.success("注册成功！"));
+            } else {
+                return ResponseEntity.ok(Result.error("注册失败"));
+            }
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Result.error("注册失败：" + e.getMessage()));
         }
     }
 

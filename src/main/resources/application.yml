@@ -1,9 +1,33 @@
 spring:
+  redis:
+    host: localhost
+    port: 6379
+    password: 123456
+    database: 9
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/studentms?setUnicode=true&characterEncoding=utf8&useAffectedRows=true
     username: root
     password: root
+  freemarker:
+    template-loader-path: classpath:/templates/
+  mail:
+    email: 15224973394@163.com
+    host: smtp.163.com
+    port: 465
+    username: 15224973394
+    # 授权密码， 非邮箱密码，授权码是用于登录第三方邮件客户端的专用密码。
+    password: TEBVOQSTHVTBEFVC
+    # 默认编码
+    default-encoding: UTF-8
+    # 使用的协议
+    protocol: smtps
+
+code:
+  expiration: 300
+
+
+
 logging:
   level:
     com.zhiend.student_server: info

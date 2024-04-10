@@ -29,7 +29,7 @@
         </where>
     </select>
 
-    <update id="updateById">
+    <update id="updateById1">
         UPDATE studentms.Student SET
                                      sname = #{student.sname},
                                      password = #{student.password},
