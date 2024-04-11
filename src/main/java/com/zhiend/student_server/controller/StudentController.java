@@ -46,13 +46,22 @@ public class StudentController {
         return studentService.save(student);
     }
 
+    /**
+     * 发送邮箱验证码
+     *
+     * @param email 需要发送验证码的邮箱地址
+     * @return ResponseEntity<Result<String>> 如果发送成功，返回包含成功信息的ResponseEntity；如果发送失败，返回包含错误信息的ResponseEntity。
+     */
     @ApiOperation("发送邮箱验证码")
     @PostMapping("/sendEailCode")
     public ResponseEntity<Result<String>> sendMailCode(@RequestParam("email") String email) {
         try {
+            // 尝试发送邮箱验证码
             studentService.sendMailCode(email);
+            // 邮箱验证码发送成功，返回成功提示信息
             return ResponseEntity.ok(Result.success("验证码已发送至邮箱：" + email));
         } catch (Exception e) {
+            // 发送邮箱验证码失败，返回错误提示信息
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Result.error("发送验证码失败：" + e.getMessage()));
         }
@@ -82,6 +91,9 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Result.error("注册失败：" + e.getMessage()));
         }
+
+
+
     }
 
     @ApiOperation("学生登录")
