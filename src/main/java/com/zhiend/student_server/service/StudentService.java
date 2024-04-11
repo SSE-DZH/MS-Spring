@@ -10,6 +10,7 @@ import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.zhiend.student_server.dto.EmailDto;
 import com.zhiend.student_server.dto.RegisterDTO;
+import com.zhiend.student_server.dto.UpdatePasswordDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
@@ -82,33 +83,70 @@ public class StudentService {
 //        }
     }
 
+    /**
+     * 用户注册接口
+     * @param registerDTO 注册数据传输对象，包含用户注册所需全部信息
+     * @return boolean 注册成功返回true，失败返回false
+     * @throws RuntimeException 验证码无效、用户名已存在或注册密码设置异常时抛出
+     */
     @Transactional(rollbackFor = Exception.class)
     public boolean register(RegisterDTO registerDTO) {
-        // 通过email获取redis中的code
+        // 验证邮箱验证码是否有效
         Object code = redisTemplate.opsForValue().get(registerDTO.getEmail());
         if (code == null || !code.toString().equals(registerDTO.getVerificationCode())) {
             throw new RuntimeException("无效验证码");
         } else {
+            // 验证码有效则清除缓存中的验证码
             cleanCache(registerDTO.getEmail());
         }
 
+        // 检查用户名是否已被注册
         if (this.findByUsername(registerDTO.getUsername()) != null) {
             throw new RuntimeException("用户名已存在");
         }
-        // 创建用户
+        // 创建学生对象并设置用户信息
         Student student = new Student();
         student.setSname(registerDTO.getUsername());
         student.setPhone(registerDTO.getPhone());
         try {
             student.setPassword(registerDTO.getPassword());
         } catch (Exception e) {
+            // 密码设置异常时抛出运行时异常
             throw new RuntimeException("注册密码异常");
         }
         student.setEmail(registerDTO.getEmail());
-        //studentMapper.insert(student);
+        // 插入学生信息到数据库
         return studentMapper.insert(student) > 0;
-        //return this.create(student) != null;
     }
+
+
+    /**
+     * 根据邮箱验证码更新用户密码。
+     * 使用事务确保操作的原子性，任何异常都会导致回滚。
+     *
+     * @param updatePasswordDTO 包含更新密码所需信息的数据传输对象，包括：
+     *                           用户邮箱、验证码、新密码和用户名。
+     * @return boolean 返回更新操作是否成功。
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateByCode(UpdatePasswordDTO updatePasswordDTO) {
+        Student student = studentMapper.findByUsername(updatePasswordDTO.getUsername());
+
+        // 验证邮箱验证码是否有效
+        Object code = redisTemplate.opsForValue().get(student.getEmail());
+        if (code == null || !code.toString().equals(updatePasswordDTO.getVerificationCode())) {
+            throw new RuntimeException("无效验证码");
+        } else {
+            // 验证码有效则清除缓存中的验证码
+            cleanCache(student.getEmail());
+        }
+
+        // 根据用户名查找学生对象，更新密码，然后尝试更新数据库
+
+        student.setPassword(updatePasswordDTO.getPassword());
+        return studentMapper.updateById1(student);
+    }
+
 
     /**
      * 清理缓存数据
@@ -218,7 +256,6 @@ public class StudentService {
     public boolean deleteById(Integer sid) {
         return studentMapper.deleteById(sid);
     }
-
 
 
 

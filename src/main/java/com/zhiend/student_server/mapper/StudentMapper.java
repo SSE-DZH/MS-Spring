@@ -66,6 +66,11 @@ public interface StudentMapper extends BaseMapper<Student> {
      */
     public boolean deleteById(@Param("sid") Integer sid);
 
+    /**
+     * 根据用户名查询学生信息
+     * @param username 用户名
+     * @return 学生对象
+     */
     @Select("SELECT * FROM studentms.Student WHERE sname = #{username}")
     Student findByUsername(String username);
 }
