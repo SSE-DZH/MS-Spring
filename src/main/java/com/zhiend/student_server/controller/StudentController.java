@@ -31,10 +31,18 @@ public class StudentController {
     @Autowired
     private StudentService studentService;
 
+    /**
+     * 添加学生信息
+     *
+     * @param student 学生对象，包含学生详细信息，通过RequestBody接收前端传来的JSON数据。
+     * @return boolean 返回添加结果，true表示添加成功，false表示添加失败。
+     */
     @ApiOperation("添加学生")
     @PostMapping("/addStudent")
     public boolean addStudent(@RequestBody Student student) {
+        // 打印保存学生信息的提示
         System.out.println("正在保存学生对象" + student);
+        // 调用学生服务层的save方法保存学生信息，并返回保存结果
         return studentService.save(student);
     }
 
@@ -50,17 +58,27 @@ public class StudentController {
         }
     }
 
+    /**
+     * 用户注册接口
+     *
+     * @param registerDTO 包含注册信息的数据传输对象，例如用户名、密码等
+     * @return ResponseEntity<Result<String>> 如果注册成功，返回带有成功消息的ResponseEntity；如果注册失败，返回带有错误消息的ResponseEntity；如果遇到异常，返回带有异常信息的错误消息。
+     */
     @ApiOperation("注册")
     @PostMapping(value = "/register")
     public ResponseEntity<Result<String>> register(@RequestBody RegisterDTO registerDTO) {
         try {
+            // 尝试注册用户
             boolean success = studentService.register(registerDTO);
             if (success) {
+                // 注册成功，返回成功消息
                 return ResponseEntity.ok(Result.success("注册成功！"));
             } else {
+                // 注册失败，返回错误消息
                 return ResponseEntity.ok(Result.error("注册失败"));
             }
         } catch (Exception e) {
+            // 遇到异常，返回异常信息
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Result.error("注册失败：" + e.getMessage()));
         }
@@ -116,6 +134,12 @@ public class StudentController {
         return studentService.getLength();
     }
 
+    /**
+     * 根据学生ID删除学生信息。
+     *
+     * @param sid 学生的ID，用于指定要删除的学生。
+     * @return 返回一个布尔值，表示删除操作是否成功。
+     */
     @ApiOperation("根据学生ID删除学生信息")
     @GetMapping("/deleteById/{sid}")
     public boolean deleteById(@PathVariable("sid") int sid) {
@@ -123,6 +147,12 @@ public class StudentController {
         return studentService.deleteById(sid);
     }
 
+    /**
+     * 更新学生信息。
+     *
+     * @param student 包含更新后学生信息的对象，通过RequestBody接收前端传来的JSON数据。
+     * @return 返回一个布尔值，表示更新操作是否成功。
+     */
     @ApiOperation("更新学生信息")
     @PostMapping("/updateStudent")
     public boolean updateStudent(@RequestBody Student student) {

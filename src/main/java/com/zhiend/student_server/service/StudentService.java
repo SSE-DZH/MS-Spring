@@ -86,7 +86,7 @@ public class StudentService {
     public boolean register(RegisterDTO registerDTO) {
         // 通过email获取redis中的code
         Object code = redisTemplate.opsForValue().get(registerDTO.getEmail());
-        if (code == null || !code.toString().equals(registerDTO.getCheckCode())) {
+        if (code == null || !code.toString().equals(registerDTO.getVerificationCode())) {
             throw new RuntimeException("无效验证码");
         } else {
             cleanCache(registerDTO.getEmail());
