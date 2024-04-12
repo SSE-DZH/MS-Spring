@@ -1,5 +1,6 @@
 package com.zhiend.student_server.controller;
 
+import com.zhiend.student_server.dto.EmailVerificationDto;
 import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.dto.UpdatePasswordDTO;
@@ -31,6 +32,27 @@ import io.swagger.annotations.ApiOperation;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+
+    /**
+     * 根据邮箱验证代码检查邮箱对应的验证码是否正确。
+     *
+     * @param emailVerificationDto 包含邮箱和验证码信息的数据传输对象。
+     * @return 返回操作结果，如果验证码正确，则返回操作成功的结果；否则返回操作失败并附带错误信息。
+     */
+    @PostMapping("/checkCode")
+    @ApiOperation("根据邮箱验证代码检查邮箱对应的验证码是否正确")
+    public Result checkCode(@RequestBody EmailVerificationDto emailVerificationDto) {
+        // 尝试根据提供的信息验证验证码的正确性
+        boolean result = studentService.checkCode(emailVerificationDto);
+        // 根据验证结果返回相应的操作结果
+        if (result) {
+            return Result.success();
+        } else {
+            return Result.error("验证码错误");
+        }
+    }
+
+
 
     /**
      * 更改密码

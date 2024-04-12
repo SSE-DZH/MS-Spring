@@ -9,6 +9,7 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.zhiend.student_server.dto.EmailDto;
+import com.zhiend.student_server.dto.EmailVerificationDto;
 import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.dto.UpdatePasswordDTO;
 import com.zhiend.student_server.entity.Student;
@@ -258,5 +259,22 @@ public class StudentService {
     }
 
 
-
+    /**
+     * 校验邮箱验证码是否有效。
+     *
+     * @param emailVerificationDto 包含邮箱和验证码信息的数据传输对象。
+     * @return boolean 如果验证码有效则返回true，否则返回false。
+     */
+    public boolean checkCode(EmailVerificationDto emailVerificationDto) {
+        // 从Redis缓存中根据邮箱获取验证码
+        Object code = redisTemplate.opsForValue().get(emailVerificationDto.getEmail());
+        if (code == null || !code.toString().equals(emailVerificationDto.getVerificationCode())) {
+            // 验证码不存在或不匹配
+            return false;
+        } else {
+            // 验证码有效，清除缓存中的验证码
+            cleanCache(emailVerificationDto.getEmail());
+            return true;
+        }
+    }
 }
