@@ -8,6 +8,8 @@ import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.zhiend.student_server.dto.EmailDto;
 import com.zhiend.student_server.dto.RegisterDTO;
+import com.zhiend.student_server.dto.UpdatePasswordDTO;
+import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.mapper.TeacherMapper;
 import lombok.RequiredArgsConstructor;
@@ -116,6 +118,34 @@ public class TeacherService {
         //studentMapper.insert(teacher);
         return teacherMapper.insert(teacher) > 0;
         //return this.create(teacher) != null;
+    }
+
+
+    /**
+     * 根据邮箱验证码更新用户密码。
+     * 使用事务确保操作的原子性，任何异常都会导致回滚。
+     *
+     * @param updatePasswordDTO 包含更新密码所需信息的数据传输对象，包括：
+     *                           用户邮箱、验证码、新密码和用户名。
+     * @return boolean 返回更新操作是否成功。
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public boolean updateByCode(UpdatePasswordDTO updatePasswordDTO) {
+        Teacher teacher = teacherMapper.findByUsername(updatePasswordDTO.getUsername());
+
+        // 验证邮箱验证码是否有效
+        Object code = redisTemplate.opsForValue().get(teacher.getEmail());
+        if (code == null || !code.toString().equals(updatePasswordDTO.getVerificationCode())) {
+            throw new RuntimeException("无效验证码");
+        } else {
+            // 验证码有效则清除缓存中的验证码
+            cleanCache(teacher.getEmail());
+        }
+
+        // 根据用户名查找学生对象，更新密码，然后尝试更新数据库
+
+        teacher.setPassword(updatePasswordDTO.getPassword());
+        return teacherMapper.updateById1(teacher);
     }
 
     /**

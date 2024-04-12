@@ -3,6 +3,7 @@ package com.zhiend.student_server.controller;
 import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.dto.PageDTO;
 import com.zhiend.student_server.dto.RegisterDTO;
+import com.zhiend.student_server.dto.UpdatePasswordDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.query.PageQuery;
@@ -36,6 +37,48 @@ import java.util.Map;
 public class TeacherController {
     @Autowired
     private TeacherService teacherService;
+
+
+    /**
+     * 更改密码
+     *
+     * @param updatePasswordDTO 包含新密码和其他必要信息的数据传输对象
+     * @return 返回操作结果，如果成功则包含成功信息，如果失败则包含错误信息
+     */
+    @ApiOperation("更改密码")
+    @PostMapping("/updatePassword")
+    public Result updatePassword(@RequestBody UpdatePasswordDTO updatePasswordDTO) {
+        // 调用教师服务层的方法，尝试根据提供的信息更新学生密码
+        boolean result = teacherService.updateByCode(updatePasswordDTO);
+        // 根据更新结果返回相应的操作结果
+        if (result) {
+            return Result.success();
+        } else {
+            return Result.error("更新密码失败");
+        }
+    }
+
+    /**
+     * 根据用户名查找并返回对应的邮箱地址。
+     *
+     * @param username 用户名，用于查找对应的邮箱地址。
+     * @return 返回一个结果对象，如果找到对应的邮箱地址，则返回邮箱地址；否则，返回错误信息。
+     */
+    @ApiOperation("根据username查找返回邮箱")
+    @GetMapping("/findEmailByUsername")
+    public Result<String> findEmailByUsername(@RequestParam("username") String username) {
+        System.out.println("根据姓名查找邮箱");
+        // 调用学生服务层，根据用户名查找邮箱地址
+        String email = teacherService.findByUsername(username).getEmail();
+        // 判断是否找到对应的邮箱地址
+        if (email != null) {
+            // 找到邮箱，返回成功结果包含邮箱地址
+            return Result.success(email);
+        } else {
+            // 未找到邮箱，返回错误结果
+            return Result.error("未找到邮箱");
+        }
+    }
 
     /**
      * 添加教师
