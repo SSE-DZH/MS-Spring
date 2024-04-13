@@ -23,6 +23,9 @@ spring:
     # 使用的协议
     protocol: smtps
 
+
+
+
 code:
   expiration: 300
 
