@@ -104,4 +104,34 @@ public interface StudentCourseTeacherMapper {
     @Delete("DELETE FROM studentms.studentcourseteacher WHERE sid = #{sct.sid} AND tid = #{sct.tid} AND cid = #{sct.cid}")
     public boolean deleteBySCT(@Param("sct") StudentCourseTeacher sct);
 
+
+    /**
+     * 根据提供的条件搜索SCT信息。
+     * @param sid 学生ID，可选参数。
+     * @param sname 学生姓名，可选参数。
+     * @param sFuzzy 是否进行学生姓名的模糊搜索，可选参数。
+     * @param cid 课程ID，可选参数。
+     * @param cname 课程名称，可选参数。
+     * @param cFuzzy 是否进行课程名称的模糊搜索，可选参数。
+     * @param tid 教师ID，可选参数。
+     * @param tname 教师姓名，可选参数。
+     * @param tFuzzy 是否进行教师姓名的模糊搜索，可选参数。
+     * @param lowBound 成绩下限，可选参数。
+     * @param highBound 成绩上限，可选参数。
+     * @param term 学期，可选参数。
+     * @param classification 分类，可选参数。
+     * @return 返回匹配搜索条件的SCT信息列表。
+     */
+    public List<SCTInfo> findBySearch1(@Param("sid") Integer sid,
+                                          @Param("sname") String sname,
+                                          @Param("sFuzzy") Integer sFuzzy,
+                                          @Param("cid") Integer cid,
+                                          @Param("cname") String cname,
+                                          @Param("cFuzzy") Integer cFuzzy,
+                                          @Param("tid") Integer tid,
+                                          @Param("tname") String tname,
+                                          @Param("tFuzzy") Integer tFuzzy,
+                                          @Param("lowBound") Integer lowBound,
+                                          @Param("highBound") Integer highBound,
+                                          @Param("term") String term, @Param("classification") String classification); // 添加分类参数
 }

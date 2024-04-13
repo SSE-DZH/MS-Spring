@@ -3,6 +3,7 @@ package com.zhiend.student_server.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.apache.ibatis.type.Alias;
 
 /**
@@ -16,6 +17,7 @@ import org.apache.ibatis.type.Alias;
 @NoArgsConstructor
 @AllArgsConstructor
 @Alias("SCTInfo")
+@ToString
 public class SCTInfo {
     private Integer sid;        // 学生编号
     private Integer tid;        // 教师编号

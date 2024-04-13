@@ -60,4 +60,77 @@
             </if>
         </where>
     </select>
+    <select id="findBySearch1" resultType="SCTInfo">
+        SELECT c.cid, c.cname, t.tid, t.tname, s.sid, s.sname, sct.grade, sct.term
+        FROM studentms.StudentCourseTeacher sct INNER JOIN studentms.Student s ON sct.sid = s.sid
+        INNER JOIN studentms.Teacher t ON sct.tid = t.tid
+        INNER JOIN studentms.Course c ON sct.cid = c.cid
+        <where>
+            <if test="sid != null">
+                s.sid = #{sid}
+            </if>
+            <if test="tid != null">
+                AND t.tid = #{tid}
+            </if>
+            <if test="cid != null">
+                AND c.cid = #{cid}
+            </if>
+            <if test="sname != null">
+                <if test="sFuzzy == 0">
+                    AND s.sname = #{sname}
+                </if>
+                <if test="sFuzzy == 1">
+                    AND s.sname LIKE CONCAT('%', #{sname}, '%')
+                </if>
+            </if>
+            <if test="tname != null">
+                <if test="tFuzzy == 0">
+                    AND t.tname = #{tname}
+                </if>
+                <if test="tFuzzy == 1">
+                    AND t.tname LIKE CONCAT('%', #{tname}, '%')
+                </if>
+            </if>
+            <if test="cname != null">
+                <if test="cFuzzy == 0">
+                    AND c.cname = #{cname}
+                </if>
+                <if test="cFuzzy == 1">
+                    AND c.cname LIKE CONCAT('%', #{cname}, '%')
+                </if>
+            </if>
+            <if test="term != null">
+                AND sct.term = #{term}
+            </if>
+            <if test="lowBound != null">
+                AND sct.grade >= #{lowBound}
+            </if>
+            <if test="highBound != null">
+                AND #{highBound} >= sct.grade
+            </if>
+<!-- 添加分类查询条件 -->
+<if test="classification != null and classification != ''">
+    <choose>
+        <when test="classification.equals('不及格')">
+            AND sct.grade &lt; 60.0
+        </when>
+        <when test="classification.equals('及格')">
+            AND sct.grade >= 60.0 AND sct.grade &lt; 70.0
+        </when>
+        <when test="classification.equals('良好')">
+            AND sct.grade >= 70.0 AND sct.grade &lt; 80.0
+        </when>
+        <when test="classification.equals('中好')">
+            AND sct.grade >= 80.0 AND sct.grade &lt; 90.0
+        </when>
+        <when test="classification.equals('优秀')">
+            AND sct.grade >= 90.0
+        </when>
+    </choose>
+</if>
+
+
+        </where>
+    </select>
+
 </mapper>

@@ -6,7 +6,6 @@ import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.dto.UpdatePasswordDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
-import com.zhiend.student_server.query.PageQuery;
 import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.TeacherService;
 import lombok.extern.slf4j.Slf4j;

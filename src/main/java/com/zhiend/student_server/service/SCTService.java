@@ -123,6 +123,7 @@ public class SCTService {
         String sname = null, cname = null, tname = null, term = null;
         Integer sFuzzy = null, cFuzzy = null, tFuzzy = null;
         Integer lowBound = null, highBound = null;
+        String classification = null; // 添加分类查询条件
 
         if (map.containsKey("cid")) {
             try {
@@ -180,12 +181,16 @@ public class SCTService {
             catch (Exception e) {
             }
         }
+        if (map.containsKey("classification")) { // 解析分类查询条件
+            classification = map.get("classification");
+            System.out.println(classification);
+        }
 
         System.out.println("SCT 查询：" + map);
-        return studentCourseTeacherMapper.findBySearch(
+        return studentCourseTeacherMapper.findBySearch1(
                 sid, sname, sFuzzy,
                 cid, cname, cFuzzy,
                 tid, tname, tFuzzy,
-                lowBound, highBound, term);
+                lowBound, highBound, term, classification);
     }
 }
