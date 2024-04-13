@@ -1,4 +1,4 @@
-package com.zhiend.student_server.util;
+package com.zhiend.student_server.utils;
 
 import java.security.GeneralSecurityException;
 import java.util.Properties;

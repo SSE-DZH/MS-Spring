@@ -34,9 +34,11 @@
                                      sname = #{student.sname},
                                      password = #{student.password},
                                      email = #{student.email},  -- 添加邮箱字段
-                                     phone = #{student.phone}   -- 添加手机号字段
+                                     phone = #{student.phone},   -- 添加手机号字段
+                                     avatar = #{student.avatar}
         WHERE sid = #{student.sid};
     </update>
+
 
 
     <insert id="save">

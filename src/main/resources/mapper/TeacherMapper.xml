@@ -33,9 +33,11 @@
                                      tname = #{teacher.tname},
                                      password = #{teacher.password},
                                      email = #{teacher.email}, -- 新增邮箱字段
-                                     phone = #{teacher.phone}  -- 新增手机字段
+                                     phone = #{teacher.phone},  -- 新增手机字段
+                                     avatar = #{teacher.avatar} -- 头像字段修正
         WHERE tid = #{teacher.tid};
     </update>
+
 
     <insert id="save">
         INSERT INTO studentms.Teacher (tname, password, email, phone) VALUES (#{teacher.tname}, #{teacher.password}, #{teacher.email}, #{teacher.phone});
