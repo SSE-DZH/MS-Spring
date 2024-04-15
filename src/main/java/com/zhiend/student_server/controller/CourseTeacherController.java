@@ -33,14 +33,19 @@ public class CourseTeacherController {
      * @param term 学期
      * @return 是否成功添加
      */
-    @GetMapping("/insert/{cid}/{tid}/{term}")
+    @GetMapping("/insert/{cid}/{tid}/{term}/{location}/{schedule}")
     @ApiOperation(value = "添加课程教师")
-    public boolean insert(@PathVariable Integer cid, @PathVariable Integer tid, @PathVariable String term) {
+    public boolean insert(@PathVariable Integer cid,
+                          @PathVariable Integer tid,
+                          @PathVariable String term,
+                          @PathVariable String location,
+                          @PathVariable String schedule) {
         if (courseTeacherService.findBySearch(cid, tid, term).size() != 0) {
             return false;
         }
-        return courseTeacherService.insertCourseTeacher(cid, tid, term);
+        return courseTeacherService.insertCourseTeacher(cid, tid, term, location, schedule);
     }
+
 
     /**
      * 查询教师开设的课程

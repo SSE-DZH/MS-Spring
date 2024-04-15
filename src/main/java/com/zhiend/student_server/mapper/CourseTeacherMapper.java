@@ -28,10 +28,12 @@ public interface CourseTeacherMapper {
      * @param term 学期
      * @return 是否成功插入
      */
-    @Insert("INSERT INTO studentms.courseteacher (cid, tid, term) VALUES (#{cid}, #{tid}, #{term})")
+    @Insert("INSERT INTO studentms.courseteacher (cid, tid, term, location, schedule) VALUES (#{cid}, #{tid}, #{term}, #{location}, #{schedule})")
     public boolean insertCourseTeacher(@Param("cid") Integer cid,
                                        @Param("tid") Integer tid,
-                                       @Param("term") String term);
+                                       @Param("term") String term,
+                                       @Param("location") String location,
+                                       @Param("schedule") String schedule);
 
     /**
      * 根据条件查询课程教师信息

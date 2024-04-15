@@ -29,9 +29,14 @@ public class CourseTeacherService {
      * @param term 学期
      * @return 是否成功插入
      */
-    public boolean insertCourseTeacher(Integer cid, Integer tid, String term) {
-        return courseTeacherMapper.insertCourseTeacher(cid, tid, term);
+    public boolean insertCourseTeacher(Integer cid,
+                                       Integer tid,
+                                       String term,
+                                       String location,
+                                       String schedule) {
+        return courseTeacherMapper.insertCourseTeacher(cid, tid, term, location, schedule);
     }
+
 
     /**
      * 查询教师开设的课程
