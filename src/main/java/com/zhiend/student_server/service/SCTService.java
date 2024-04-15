@@ -4,6 +4,7 @@ import com.zhiend.student_server.entity.CourseTeacherInfo;
 import com.zhiend.student_server.entity.SCTInfo;
 import com.zhiend.student_server.entity.StudentCourseTeacher;
 import com.zhiend.student_server.mapper.StudentCourseTeacherMapper;
+import com.zhiend.student_server.vo.CourseStatisticVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -193,4 +194,42 @@ public class SCTService {
                 tid, tname, tFuzzy,
                 lowBound, highBound, term, classification);
     }
+
+    /**
+     * 根据课程名称和学期查找课程统计信息。
+     *
+     * @param cname 课程名称，用于查找特定课程的统计信息。
+     * @param term 学期，指定查找的学期范围。
+     * @return CourseStatisticVO 返回课程统计信息的视图对象，包含指定课程在指定学期的统计详情。
+     */
+    public CourseStatisticVO findByCname(String cname, String term) {
+        // 初始化每个成绩范围的计数器
+        int lessThan60 = 0;
+        int sixtyTo69 = 0;
+        int seventyTo79 = 0;
+        int eightyTo89 = 0;
+        int ninetyTo100 = 0;
+
+        // 查询数据库以获取指定课程和学期的成绩
+        List<Float> grades = studentCourseTeacherMapper.findGradesByCnameAndTerm(cname, term);
+
+        // 遍历成绩并在相应范围内进行计数
+        for (Float grade : grades) {
+            if (grade < 60) {
+                lessThan60++;
+            } else if (grade >= 60 && grade < 70) {
+                sixtyTo69++;
+            } else if (grade >= 70 && grade < 80) {
+                seventyTo79++;
+            } else if (grade >= 80 && grade < 90) {
+                eightyTo89++;
+            } else if (grade >= 90 && grade <= 100) {
+                ninetyTo100++;
+            }
+        }
+
+        // 创建并返回 CourseStatisticVO 对象，其中包含计数的成绩范围
+        return new CourseStatisticVO(lessThan60, sixtyTo69, seventyTo79, eightyTo89, ninetyTo100);
+    }
+
 }

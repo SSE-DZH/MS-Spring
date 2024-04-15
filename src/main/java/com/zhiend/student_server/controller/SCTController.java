@@ -3,7 +3,9 @@ package com.zhiend.student_server.controller;
 import com.zhiend.student_server.entity.CourseTeacherInfo;
 import com.zhiend.student_server.entity.SCTInfo;
 import com.zhiend.student_server.entity.StudentCourseTeacher;
+import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.SCTService;
+import com.zhiend.student_server.vo.CourseStatisticVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,20 @@ import java.util.Map;
 public class SCTController {
     @Autowired
     private SCTService sctService;
+
+    /**
+     * 根据课程名字和学期返回课程统计信息。
+     *
+     * @param cname 课程名称，作为路径变量传递。
+     * @param term 学期，作为路径变量传递。
+     * @return 返回一个Result对象，其中包含CourseStatisticVO类型的课程统计信息。如果查询成功，Result的success方法将返回统计信息；否则，返回相关错误信息。
+     */
+    @PostMapping("/findByCname/{cname}/{term}")
+    @ApiOperation("根据课程名字返回CourseStatisticVO")
+    public Result<CourseStatisticVO> findByCname(@PathVariable String cname, @PathVariable String term) {
+        // 调用sctService中的findByCname方法查询课程统计信息，并将结果封装在Result对象中返回
+        return Result.success(sctService.findByCname(cname, term));
+    }
 
     @PostMapping("/save")
     @ApiOperation("选课")

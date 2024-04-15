@@ -20,6 +20,8 @@ public class CourseService {
     @Autowired
     private CourseMapper courseMapper;
 
+
+
     /**
      * 根据搜索条件查询课程
      *
@@ -113,5 +115,15 @@ public class CourseService {
      */
     public boolean deleteById(Integer cid) {
         return courseMapper.deleteById(cid);
+    }
+
+    /**
+     * 查找所有课程名称
+     *
+     * @return 返回一个字符串列表，包含所有课程的名称
+     */
+    public List<String> findAllCname() {
+        // 通过courseMapper查询所有课程名称
+        return courseMapper.findAllCname();
     }
 }

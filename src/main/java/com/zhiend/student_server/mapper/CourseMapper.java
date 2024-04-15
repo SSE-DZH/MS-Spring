@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zhiend.student_server.entity.Course;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -56,4 +57,12 @@ public interface CourseMapper extends BaseMapper {
      * @return 删除是否成功
      */
     boolean deleteById(@Param("cid") Integer cid);
+
+    /**
+     * 查询所有课程名称
+     *
+     * @return 所有课程名称的列表
+     */
+    @Select("SELECT cname FROM course")
+    List<String> findAllCname();
 }

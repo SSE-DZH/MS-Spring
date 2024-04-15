@@ -25,6 +25,18 @@ public class CourseController {
     private CourseService courseService;
 
     /**
+     * 获取所有课程名字
+     *
+     * @return 返回一个包含所有课程名字的List<String>
+     */
+    @ApiOperation("获取所有课程名字")
+    @GetMapping("/findAllCname")
+    public List<String> findAllCname() {
+        // 从courseService中查询并返回所有课程名字
+        return courseService.findAllCname();
+    }
+
+    /**
      * 根据给定参数搜索课程
      *
      * @param map 搜索课程的参数
