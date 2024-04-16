@@ -136,8 +136,7 @@ public interface StudentCourseTeacherMapper {
                                           @Param("term") String term, @Param("classification") String classification); // 添加分类参数
 
     @Select("SELECT sct.grade FROM studentcourseteacher sct " +
-            "JOIN courseteacher ct ON sct.cid = ct.cid " +
-            "JOIN course c ON ct.cid = c.cid " +
+            "INNER JOIN course c ON sct.cid = c.cid " +
             "WHERE c.cname = #{cname} AND sct.term = #{term}")
     List<Float> findGradesByCnameAndTerm(@Param("cname") String cname, @Param("term") String term);
 }
