@@ -11,6 +11,7 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -28,6 +29,17 @@ import java.util.Map;
 public class SCTController {
     @Autowired
     private SCTService sctService;
+
+    /**
+     * 导出运营数据报表
+     * @param response
+     */
+    @GetMapping("/export/{cname}/{term}")
+    @ApiOperation("导出课程成绩报表")
+    public Result export(@PathVariable String cname, @PathVariable String term, HttpServletResponse response){
+        sctService.exportBusinessData(cname, term, response);
+        return Result.success();
+    }
 
     /**
      * 根据课程名字和学期返回课程统计信息。

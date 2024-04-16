@@ -5,9 +5,17 @@ import com.zhiend.student_server.entity.SCTInfo;
 import com.zhiend.student_server.entity.StudentCourseTeacher;
 import com.zhiend.student_server.mapper.StudentCourseTeacherMapper;
 import com.zhiend.student_server.vo.CourseStatisticVO;
+import org.apache.poi.xssf.usermodel.XSSFRow;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.servlet.ServletOutputStream;
+import javax.servlet.http.HttpServletResponse;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -232,4 +240,54 @@ public class SCTService {
         return new CourseStatisticVO(lessThan60, sixtyTo69, seventyTo79, eightyTo89, ninetyTo100);
     }
 
+    public void exportBusinessData(String cname, String term, HttpServletResponse response) {
+        CourseStatisticVO courseStatisticVO = this.findByCname(cname, term);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/课程成绩报表.xlsx");
+        try{
+            //基于提供好的模板文件创建一个新的Excel表格对象
+            XSSFWorkbook excel = new XSSFWorkbook(inputStream);
+            //获得Excel文件中的一个Sheet页
+            XSSFSheet sheet = excel.getSheet("Sheet1");
+
+            //获得第1行
+            XSSFRow row = sheet.getRow(0);
+            //根据row将第一行第二列写入cname数据
+            row.getCell(1).setCellValue(cname + "成绩报表" +"（" + term + "）");
+
+            //获得第4行
+            row = sheet.getRow(3);
+            row.getCell(1).setCellValue(courseStatisticVO.getLessThan60() + "人");
+
+            //获得第6行
+            row = sheet.getRow(5);
+            row.getCell(1).setCellValue(courseStatisticVO.getSixtyTo69() + "人");
+
+            //获得第8行
+            row = sheet.getRow(7);
+            row.getCell(1).setCellValue(courseStatisticVO.getSeventyTo79() + "人");
+
+            //获得第10行
+            row = sheet.getRow(9);
+            row.getCell(1).setCellValue(courseStatisticVO.getEightyTo89() + "人");
+
+            //获得第12行
+            row = sheet.getRow(11);
+            row.getCell(1).setCellValue(courseStatisticVO.getNinetyTo100() + "人");
+
+            //获得第13行
+            row = sheet.getRow(12);
+            //写入当前日期，精确到分秒
+            row.getCell(1).setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+            //通过输出流将文件下载到客户端浏览器中
+            ServletOutputStream out = response.getOutputStream();
+            excel.write(out);
+            //关闭资源
+            out.flush();
+            out.close();
+            excel.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
 }
