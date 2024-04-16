@@ -1,12 +1,10 @@
 package com.zhiend.student_server.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zhiend.student_server.entity.Course;
 import com.zhiend.student_server.entity.CourseTeacher;
 import com.zhiend.student_server.entity.CourseTeacherInfo;
-import org.apache.ibatis.annotations.Delete;
-import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
  */
 @Repository
 @Mapper
-public interface CourseTeacherMapper {
+public interface CourseTeacherMapper extends BaseMapper<CourseTeacher>{
 
     /**
      * 插入课程教师信息
@@ -78,5 +76,23 @@ public interface CourseTeacherMapper {
      * @return 是否成功删除
      */
     @Delete("DELETE FROM studentms.courseteacher WHERE cid = #{c.cid} AND tid = #{c.tid}")
-    public boolean deleteById(@Param("c") CourseTeacher courseTeacher);
+    public boolean deleteById1(@Param("c") CourseTeacher courseTeacher);
+
+    /**
+     * 根据教师ID查询其所教授的课程名称列表。
+     *
+     * 本方法通过动态构建的查询条件，根据指定的教师ID（tid），查询数据库中该教师所教授的所有课程的名称。
+     * 查询过程中，会使用INNER JOIN将courseteacher表和course表关联起来，以便获取完整的课程名称信息。
+     *
+     * @param tid 教师ID，用于指定要查询的教师。
+     * @return 返回一个字符串列表，列表中包含指定教师ID所教授的所有课程名称。
+     */
+    @Select("SELECT c.cname FROM courseteacher ct INNER JOIN course c ON ct.cid = c.cid WHERE ct.tid = #{tid}")
+    List<String> findCourseNamesByTid(@Param("tid") Integer tid);
+
+    @Select("SELECT sct.grade FROM studentcourseteacher sct " +
+            "INNER JOIN course c ON sct.cid = c.cid " +
+            "WHERE c.cname = #{cname} AND sct.term = #{term} AND sct.tid = #{tid}")
+    List<Float> findGradesByCnameAndTerm(@Param("tid") Integer tid, @Param("cname") String cname, @Param("term") String term);
+
 }
