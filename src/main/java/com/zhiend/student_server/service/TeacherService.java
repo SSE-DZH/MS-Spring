@@ -253,6 +253,7 @@ public class TeacherService {
      */
     @ApiOperation("更新教师信息")
     public void updateById(Teacher teacher) {
+        teacher.setPassword(DigestUtils.md5DigestAsHex(teacher.getPassword().getBytes()));
         teacherMapper.updateById1(teacher);
     }
 
@@ -263,6 +264,7 @@ public class TeacherService {
      */
     @ApiOperation("添加教师信息")
     public void save(Teacher teacher) {
+        teacher.setPassword(DigestUtils.md5DigestAsHex(teacher.getPassword().getBytes()));
         teacherMapper.save(teacher);
     }
 

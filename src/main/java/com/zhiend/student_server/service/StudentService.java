@@ -241,6 +241,7 @@ public class StudentService {
      * @return 更新成功与否
      */
     public boolean updateById(Student student) {
+        student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
         return studentMapper.updateById1(student);
     }
 
@@ -250,6 +251,7 @@ public class StudentService {
      * @return 添加成功与否
      */
     public boolean save(Student student) {
+        student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
         return studentMapper.save(student);
     }
 
