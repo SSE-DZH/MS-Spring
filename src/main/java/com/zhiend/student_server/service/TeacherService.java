@@ -6,11 +6,15 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
+import com.zhiend.student_server.constant.MessageConstant;
 import com.zhiend.student_server.dto.EmailDto;
+import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.dto.UpdatePasswordDTO;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
+import com.zhiend.student_server.exception.AccountNotFoundException;
+import com.zhiend.student_server.exception.PasswordErrorException;
 import com.zhiend.student_server.mapper.TeacherMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +33,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
+
 
 /**
  * 教师服务
@@ -109,8 +115,11 @@ public class TeacherService {
         Teacher teacher = new Teacher();
         teacher.setTname(registerDTO.getUsername());
         teacher.setPhone(registerDTO.getPhone());
+
+        String password = registerDTO.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
         try {
-            teacher.setPassword(registerDTO.getPassword());
+            teacher.setPassword(password);
         } catch (Exception e) {
             throw new RuntimeException("注册密码异常");
         }
@@ -190,7 +199,8 @@ public class TeacherService {
      * @return 教师对象
      */
     public Teacher findByUsername(String username) {
-        return teacherMapper.findByUsername(username);
+        Teacher teacher = teacherMapper.findByUsername(username);
+        return teacher;
     }
 
 

@@ -1,5 +1,6 @@
 package com.zhiend.student_server.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -8,6 +9,7 @@ import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 
 @Data
+@Builder
 public class RegisterDTO implements Serializable {
     @NotBlank(message = "姓名不能为空")
     private String username;
