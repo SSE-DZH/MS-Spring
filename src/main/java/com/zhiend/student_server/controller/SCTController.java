@@ -31,7 +31,27 @@ public class SCTController {
     private SCTService sctService;
 
     /**
-     * 导出运营数据报表
+     * 根据学生ID（sid）和学期（term）导出成绩报表。
+     * <p>
+     * 该接口使用GET请求，路径格式为/export/{sid}/{term}，其中{sid}为学生ID，{term}为学期。
+     * 调用该接口会触发成绩报表的导出，并将生成的报表以响应（response）的形式返回。
+     * </p>
+     * @param sid 学生ID，路径参数，用于指定要导出成绩的学生。
+     * @param term 学期，路径参数，用于指定要导出成绩的学期。
+     * @param response HttpServletResponse，用于将生成的成绩报表作为响应返回给客户端。
+     * @return Result 成功导出的提示结果，通常为一个包含成功状态和消息的对象。
+     */
+    @GetMapping("/exportStudent/{sid}/{term}")
+    @ApiOperation("导出成绩报表")
+    public Result export(@PathVariable Integer sid, @PathVariable String term, HttpServletResponse response) {
+        // 调用服务层方法，实际执行成绩报表的导出
+        sctService.export(sid, term, response);
+        // 返回成功结果，表示成绩报表已成功导出
+        return Result.success();
+    }
+
+    /**
+     * 导出admin运营数据报表
      * @param response
      */
     @GetMapping("/export/{cname}/{term}")

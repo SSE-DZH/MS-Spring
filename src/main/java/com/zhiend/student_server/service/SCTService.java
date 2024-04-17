@@ -5,6 +5,9 @@ import com.zhiend.student_server.entity.SCTInfo;
 import com.zhiend.student_server.entity.StudentCourseTeacher;
 import com.zhiend.student_server.mapper.StudentCourseTeacherMapper;
 import com.zhiend.student_server.vo.CourseStatisticVO;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.HorizontalAlignment;
+import org.apache.poi.xssf.usermodel.XSSFCellStyle;
 import org.apache.poi.xssf.usermodel.XSSFRow;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -252,7 +255,7 @@ public class SCTService {
             //获得第1行
             XSSFRow row = sheet.getRow(0);
             //根据row将第一行第二列写入cname数据
-            row.getCell(1).setCellValue(cname + "成绩报表" +"（" + term + "）");
+            row.getCell(1).setCellValue(cname + "-成绩报表" +"（" + term + "）");
 
             //获得第4行
             row = sheet.getRow(3);
@@ -278,6 +281,55 @@ public class SCTService {
             row = sheet.getRow(12);
             //写入当前日期，精确到分秒
             row.getCell(1).setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+
+            //通过输出流将文件下载到客户端浏览器中
+            ServletOutputStream out = response.getOutputStream();
+            excel.write(out);
+            //关闭资源
+            out.flush();
+            out.close();
+            excel.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void export(Integer sid, String term, HttpServletResponse response) {
+        List<CourseTeacherInfo> courseTeacherInfos = this.findBySid(sid, term);
+        InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/学生成绩报表.xlsx");
+        try{
+            //基于提供好的模板文件创建一个新的Excel表格对象
+            XSSFWorkbook excel = new XSSFWorkbook(inputStream);
+            //获得Excel文件中的一个Sheet页
+            XSSFSheet sheet = excel.getSheet("Sheet1");
+
+            //获得第1行
+            XSSFRow row = sheet.getRow(0);
+            //根据row将第一行第二列写入cname数据
+            row.getCell(1).setCellValue(sid + "-成绩报表" +"（" + term + "）");
+
+            //遍历courseTeacherInfos，从第3行开始写，每行都相邻，不需要隔开，向每行的第2列写入tname+ ":" + cname + ":" + grade
+            for (int i = 0; i < courseTeacherInfos.size(); i++) {
+                row = sheet.getRow(i + 2);
+                row.getCell(1).setCellValue(courseTeacherInfos.get(i).getTname() + ":" + courseTeacherInfos.get(i).getCname() + ":" + courseTeacherInfos.get(i).getGrade());
+            }
+            // 紧接着下一行写入当前日期，精确到分秒，保留原有单元格样式
+            row = sheet.getRow(courseTeacherInfos.size() + 2);
+            Cell dateCell = row.getCell(1);
+            dateCell.setCellValue(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+            // 获取原有单元格样式
+            XSSFCellStyle dateCellStyle = (XSSFCellStyle) dateCell.getCellStyle();
+            // 创建一个新的单元格样式，并将原有样式属性复制到新的样式中
+            XSSFCellStyle newCellStyle = excel.createCellStyle();
+            newCellStyle.cloneStyleFrom(dateCellStyle);
+            // 设置单元格文本水平对齐方式为右对齐
+            newCellStyle.setAlignment(HorizontalAlignment.RIGHT);
+            // 应用新的样式到单元格
+            dateCell.setCellStyle(newCellStyle);
+
+
+
+
 
             //通过输出流将文件下载到客户端浏览器中
             ServletOutputStream out = response.getOutputStream();
