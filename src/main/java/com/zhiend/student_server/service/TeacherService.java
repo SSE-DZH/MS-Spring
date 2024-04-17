@@ -151,9 +151,10 @@ public class TeacherService {
             cleanCache(teacher.getEmail());
         }
 
-        // 根据用户名查找学生对象，更新密码，然后尝试更新数据库
-
-        teacher.setPassword(updatePasswordDTO.getPassword());
+        // 根据用户名查找老师对象，更新密码，然后尝试更新数据库
+        String password = updatePasswordDTO.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
+        teacher.setPassword(password);
         return teacherMapper.updateById1(teacher);
     }
 

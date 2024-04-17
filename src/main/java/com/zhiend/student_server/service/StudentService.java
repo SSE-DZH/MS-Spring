@@ -23,6 +23,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.DigestUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,8 +110,11 @@ public class StudentService {
         Student student = new Student();
         student.setSname(registerDTO.getUsername());
         student.setPhone(registerDTO.getPhone());
+
+        String password = registerDTO.getPassword();
+        password = DigestUtils.md5DigestAsHex(password.getBytes());
         try {
-            student.setPassword(registerDTO.getPassword());
+            student.setPassword(password);
         } catch (Exception e) {
             // 密码设置异常时抛出运行时异常
             throw new RuntimeException("注册密码异常");
@@ -143,8 +147,8 @@ public class StudentService {
         }
 
         // 根据用户名查找学生对象，更新密码，然后尝试更新数据库
-
-        student.setPassword(updatePasswordDTO.getPassword());
+        String password = DigestUtils.md5DigestAsHex(updatePasswordDTO.getPassword().getBytes());
+        student.setPassword(password);
         return studentMapper.updateById1(student);
     }
 

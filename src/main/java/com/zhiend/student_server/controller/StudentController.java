@@ -1,19 +1,26 @@
 package com.zhiend.student_server.controller;
 
+import com.zhiend.student_server.constant.MessageConstant;
 import com.zhiend.student_server.dto.EmailVerificationDto;
 import com.zhiend.student_server.dto.RegisterDTO;
 import com.zhiend.student_server.dto.LoginDTO;
 import com.zhiend.student_server.dto.UpdatePasswordDTO;
 import com.zhiend.student_server.entity.Student;
+import com.zhiend.student_server.exception.PasswordErrorException;
 import com.zhiend.student_server.result.Result;
 import com.zhiend.student_server.service.StudentService;
+import com.zhiend.student_server.utils.JwtUtils;
+import com.zhiend.student_server.vo.LoginVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.DigestUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -155,24 +162,35 @@ public class StudentController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(Result.error("注册失败：" + e.getMessage()));
         }
-
-
-
     }
 
     @ApiOperation("学生登录")
     @PostMapping("/login")
-    public boolean login(@RequestBody LoginDTO loginDTO) {
+    public Result<LoginVO> login(@RequestBody LoginDTO loginDTO) {
         System.out.println("正在验证学生登录 " + loginDTO);
         // 通过用户名查询学生信息
         Student student = studentService.findByUsername(loginDTO.getUsername());
-        if (student != null) {
-            // 判断密码是否匹配
-            return student.getPassword().equals(loginDTO.getPassword());
-        } else {
-            // 如果学生信息为null，说明用户名不存在，直接返回false
-            return false;
+        String password = loginDTO.getPassword();
+
+        //密码比对
+        //对前端传过来的明文密码进行md5加密处理
+        String passwordmd5 = DigestUtils.md5DigestAsHex(password.getBytes());
+        if (!password.equals(student.getPassword()) && !passwordmd5.equals(student.getPassword())) {
+            //密码错误
+            throw new PasswordErrorException(MessageConstant.PASSWORD_ERROR);
         }
+
+        //登录成功后，生成jwt令牌
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("id", student.getSid());
+        claims.put("username", student.getSname());
+        String token = JwtUtils.generateJwt(claims);
+
+        //loginvo的builder
+        LoginVO loginVO = LoginVO.builder()
+                .token(token)
+                .build();
+        return Result.success(loginVO);
     }
 
 
