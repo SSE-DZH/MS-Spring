@@ -79,10 +79,6 @@ public class StudentService {
 
         emailService.send(new EmailDto(Collections.singletonList(email),
                 "邮箱验证码", template.render(Dict.create().set("code", code))));
-//        for (int i = 0; i < 20; i++) {
-//            emailService.send(new EmailDto(Collections.singletonList(email),
-//                    "邮箱验证码", template.render(Dict.create().set("code", "吆西！CRY!!!!!"))));
-//        }
     }
 
     /**
