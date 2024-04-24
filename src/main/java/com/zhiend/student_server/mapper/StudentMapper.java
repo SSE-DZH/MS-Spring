@@ -1,10 +1,12 @@
 package com.zhiend.student_server.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.zhiend.student_server.dto.AvatarDTO;
 import com.zhiend.student_server.entity.Student;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -73,4 +75,12 @@ public interface StudentMapper extends BaseMapper<Student> {
      */
     @Select("SELECT * FROM studentms.Student WHERE sname = #{username}")
     Student findByUsername(String username);
+
+    /**
+     * 更新学生头像
+     * @param avatarDTO 头像信息
+     * @return 更新成功与否
+     */
+    @Update("UPDATE studentms.Student SET student.avatar = #{avatarDTO.avatar} WHERE student.sname = #{avatarDTO.username}")
+    boolean updateAvatar(@Param("avatarDTO") AvatarDTO avatarDTO);
 }

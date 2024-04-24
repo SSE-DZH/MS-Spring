@@ -19,8 +19,17 @@ public class LoginCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         System.out.println("preHandle .... ");
+
+
+        // 处理 OPTIONS 请求，直接放行
+        if ("OPTIONS".equals(request.getMethod())) {
+            return true;
+        }
+
         //1.获取请求url
         //2.判断请求url中是否包含login，如果包含，说明是登录操作，放行
+
+
 
         //3.获取请求头中的令牌（token）
         String token = request.getHeader("token");

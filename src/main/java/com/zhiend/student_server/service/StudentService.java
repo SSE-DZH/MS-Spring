@@ -8,10 +8,7 @@ import cn.hutool.extra.template.Template;
 import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
-import com.zhiend.student_server.dto.EmailDto;
-import com.zhiend.student_server.dto.EmailVerificationDto;
-import com.zhiend.student_server.dto.RegisterDTO;
-import com.zhiend.student_server.dto.UpdatePasswordDTO;
+import com.zhiend.student_server.dto.*;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.mapper.StudentMapper;
 import lombok.RequiredArgsConstructor;
@@ -237,7 +234,11 @@ public class StudentService {
      * @return 更新成功与否
      */
     public boolean updateById(Student student) {
-        student.setPassword(DigestUtils.md5DigestAsHex(student.getPassword().getBytes()));
+        // 检查密码是否为空
+        String password = student.getPassword();
+        if (password != null && !password.isEmpty()) {
+            student.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
+        }
         return studentMapper.updateById1(student);
     }
 
@@ -278,5 +279,9 @@ public class StudentService {
             cleanCache(emailVerificationDto.getEmail());
             return true;
         }
+    }
+
+    public boolean updateAvatar(AvatarDTO avatarDTO) {
+        return studentMapper.updateAvatar(avatarDTO);
     }
 }

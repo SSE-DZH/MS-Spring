@@ -7,10 +7,7 @@ import cn.hutool.extra.template.TemplateConfig;
 import cn.hutool.extra.template.TemplateEngine;
 import cn.hutool.extra.template.TemplateUtil;
 import com.zhiend.student_server.constant.MessageConstant;
-import com.zhiend.student_server.dto.EmailDto;
-import com.zhiend.student_server.dto.LoginDTO;
-import com.zhiend.student_server.dto.RegisterDTO;
-import com.zhiend.student_server.dto.UpdatePasswordDTO;
+import com.zhiend.student_server.dto.*;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.exception.AccountNotFoundException;
@@ -249,13 +246,17 @@ public class TeacherService {
     /**
      * 更新教师信息
      * @param teacher 教师对象
-     * @return 更新结果，成功为true，失败为false
      */
     @ApiOperation("更新教师信息")
     public void updateById(Teacher teacher) {
-        teacher.setPassword(DigestUtils.md5DigestAsHex(teacher.getPassword().getBytes()));
+        // 检查密码是否为空
+        String password = teacher.getPassword();
+        if (password != null && !password.isEmpty()) {
+            teacher.setPassword(DigestUtils.md5DigestAsHex(password.getBytes()));
+        }
         teacherMapper.updateById1(teacher);
     }
+
 
     /**
      * 添加教师信息
@@ -276,5 +277,9 @@ public class TeacherService {
     @ApiOperation("根据ID删除教师信息")
     public boolean deleteById(Integer tid) {
         return teacherMapper.deleteById(tid);
+    }
+
+    public boolean updateAvatar(AvatarDTO avatarDTO) {
+        return teacherMapper.updateAvatar(avatarDTO);
     }
 }

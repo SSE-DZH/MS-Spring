@@ -1,10 +1,7 @@
 package com.zhiend.student_server.controller;
 
 import com.zhiend.student_server.constant.MessageConstant;
-import com.zhiend.student_server.dto.LoginDTO;
-import com.zhiend.student_server.dto.PageDTO;
-import com.zhiend.student_server.dto.RegisterDTO;
-import com.zhiend.student_server.dto.UpdatePasswordDTO;
+import com.zhiend.student_server.dto.*;
 import com.zhiend.student_server.entity.Student;
 import com.zhiend.student_server.entity.Teacher;
 import com.zhiend.student_server.exception.PasswordErrorException;
@@ -212,5 +209,13 @@ public class TeacherController {
         log.info("更新教师信息：{}", teacher);
         teacherService.updateById(teacher);
         return true;
+    }
+
+    //根据上传头像DTO，更新教师头像
+    @ApiOperation("更新教师头像")
+    @PostMapping("/updateAvatar")
+    public boolean updateAvatar(@RequestBody AvatarDTO avatarDTO) {
+        System.out.println("更新头像 " + avatarDTO);
+        return teacherService.updateAvatar(avatarDTO);
     }
 }
