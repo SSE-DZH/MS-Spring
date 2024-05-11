@@ -22,7 +22,7 @@ import java.util.UUID;
 @RequestMapping("/common")
 @Api(tags = "文件传输接口")
 @Slf4j
-@CrossOrigin(origins = "http://localhost:8080")
+@CrossOrigin("*")
 public class CommonController {
 
     @Autowired

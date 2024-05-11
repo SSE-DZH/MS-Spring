@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhiend.student_server.mapper.CourseTeacherMapper">
     <select id="findBySearch" resultType="CourseTeacher">
-        SELECT * FROM studentms.CourseTeacher
+        SELECT * FROM studentms.courseteacher
         <where>
             <if test="cid != null">
                 cid = #{cid}
@@ -20,14 +20,14 @@
 
     <select id="findMyCourse" resultType="Course">
         SELECT c.cid, c.cname, c.ccredit, c.location, c.schedule
-        FROM studentms.Course c INNER JOIN studentms.CourseTeacher ct ON c.cid = ct.cid
+        FROM studentms.course c INNER JOIN studentms.courseteacher ct ON c.cid = ct.cid
         WHERE ct.tid = #{tid} AND ct.term = #{term}
     </select>
 
     <select id="findCourseTeacherInfo" resultType="CourseTeacherInfo">
         SELECT c.cid, c.cname, t.tid, t.tname, c.ccredit, c.location, c.schedule
-        FROM studentms.Course c INNER JOIN studentms.CourseTeacher ct ON c.cid = ct.cid
-        INNER JOIN studentms.Teacher t ON ct.tid = t.tid
+        FROM studentms.course c INNER JOIN studentms.courseteacher ct ON c.cid = ct.cid
+        INNER JOIN studentms.teacher t ON ct.tid = t.tid
         <where>
             <if test="tid != null">
                 t.tid = #{tid}

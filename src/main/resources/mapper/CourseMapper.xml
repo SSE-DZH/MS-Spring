@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zhiend.student_server.mapper.CourseMapper">
     <select id="findBySearch" resultType="Course">
-        SELECT * FROM studentms.Course
+        SELECT * FROM studentms.course
         <where>
             <if test="cid != null">
                 cid = #{cid}
@@ -27,7 +27,7 @@
     </select>
 
     <update id="updateById">
-        UPDATE studentms.Course SET
+        UPDATE studentms.course SET
         cname = #{course.cname},
         ccredit = #{course.ccredit},
         location = #{course.location}, <!-- 更新地点 -->
@@ -37,12 +37,12 @@
 
 
     <insert id="insertCourse">
-        INSERT INTO studentms.Course (cname, ccredit, location, schedule)
+        INSERT INTO studentms.course (cname, ccredit, location, schedule)
         VALUES (#{cname}, #{ccredit}, #{location}, #{schedule})
     </insert>
 
 
     <delete id="deleteById">
-        DELETE FROM studentms.Course WHERE cid = #{cid}
+        DELETE FROM studentms.course WHERE cid = #{cid}
     </delete>
 </mapper>

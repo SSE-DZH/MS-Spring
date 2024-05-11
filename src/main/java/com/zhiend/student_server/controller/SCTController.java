@@ -85,6 +85,13 @@ public class SCTController {
         return sctService.save(studentCourseTeacher) ? "选课成功" : "选课失败，联系管理员";
     }
 
+    /**
+     * 根据学生ID和学期查询选课信息。
+     *
+     * @param sid 学生的ID，作为查询条件之一。
+     * @param term 学期，作为查询条件之一。
+     * @return 返回一个CourseTeacherInfo类型的列表，包含该学生在指定学期的所有选课信息。
+     */
     @GetMapping("/findBySid/{sid}/{term}")
     @ApiOperation("根据学生ID和学期查询选课信息")
     public List<CourseTeacherInfo> findBySid(@PathVariable Integer sid, @PathVariable String term) {
@@ -104,6 +111,12 @@ public class SCTController {
         return sctService.deleteBySCT(studentCourseTeacher);
     }
 
+    /**
+     * 根据提供的条件查询选课信息。
+     *
+     * @param map 包含查询条件的键值对参数，键代表查询字段，值代表查询值。
+     * @return 返回一个包含查询结果的SCTInfo列表。
+     */
     @PostMapping("/findBySearch")
     @ApiOperation("根据条件查询选课信息")
     public List<SCTInfo> findBySearch(@RequestBody Map<String, String> map) {

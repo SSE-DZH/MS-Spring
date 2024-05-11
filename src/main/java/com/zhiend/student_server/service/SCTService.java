@@ -243,6 +243,13 @@ public class SCTService {
         return new CourseStatisticVO(lessThan60, sixtyTo69, seventyTo79, eightyTo89, ninetyTo100);
     }
 
+    /**
+     * 导出课程业务数据为Excel表格。
+     *
+     * @param cname 课程名称
+     * @param term 学期
+     * @param response HttpServlet响应，用于向客户端提供下载
+     */
     public void exportBusinessData(String cname, String term, HttpServletResponse response) {
         CourseStatisticVO courseStatisticVO = this.findByCname(cname, term);
         InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("templates/课程成绩报表.xlsx");

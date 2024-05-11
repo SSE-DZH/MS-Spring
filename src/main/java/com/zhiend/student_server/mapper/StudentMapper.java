@@ -29,7 +29,7 @@ public interface StudentMapper extends BaseMapper<Student> {
      */
     public List<Student> findAll();
 
-    @Select("SELECT sid FROM studentms.Student WHERE student.sname = #{username}")
+    @Select("SELECT sid FROM studentms.student WHERE student.sname = #{username}")
     Integer findIdByUsername(String username);
 
     /**
@@ -73,7 +73,7 @@ public interface StudentMapper extends BaseMapper<Student> {
      * @param username 用户名
      * @return 学生对象
      */
-    @Select("SELECT * FROM studentms.Student WHERE sname = #{username}")
+    @Select("SELECT * FROM studentms.student WHERE sname = #{username}")
     Student findByUsername(String username);
 
     /**
@@ -81,6 +81,6 @@ public interface StudentMapper extends BaseMapper<Student> {
      * @param avatarDTO 头像信息
      * @return 更新成功与否
      */
-    @Update("UPDATE studentms.Student SET student.avatar = #{avatarDTO.avatar} WHERE student.sname = #{avatarDTO.username}")
+    @Update("UPDATE studentms.student SET student.avatar = #{avatarDTO.avatar} WHERE student.sname = #{avatarDTO.username}")
     boolean updateAvatar(@Param("avatarDTO") AvatarDTO avatarDTO);
 }
